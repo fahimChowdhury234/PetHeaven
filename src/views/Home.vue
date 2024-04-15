@@ -2,9 +2,7 @@
     <div>
         <!-- Carousel Start -->
         <div class="container-fluid p-0">
-            <button @click="addpet">
-                Add data
-            </button>
+
             <div id="header-carousel" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
                     <div class="carousel-item active">

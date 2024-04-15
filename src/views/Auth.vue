@@ -41,8 +41,7 @@
                             <!-- name input -->
                             <div class="form-outline mb-2">
                                 <label class="form-label">Full Name</label>
-                                <input type="text" id="name" class="form-control name"
-                                    v-model="registerData.fullName" />
+                                <input type="text" id="name" class="form-control name" v-model="registerData.name" />
                                 <div class="invalid-feedback">Name is required</div>
                             </div>
 

@@ -21,7 +21,7 @@
                     <div class="col-md-12">
                         <div class="box ">
                             <h2>Number of Pets</h2>
-                            <p>50</p>
+                            <p v-if="allPets !== null">{{ allPets.length }}</p>
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -33,71 +33,72 @@
                     <div class="col-md-12">
                         <div class="box ">
                             <h2>Number of Users</h2>
-                            <p>100</p>
+                            <p v-if="allUser !== null">{{ allUser.length }}</p>
                         </div>
                     </div>
                 </div>
                 <div class="row" v-if="tab === 'pets'">
-                    <div class="col-lg-4 mb-4">
-                        <div class="card border-0">
-                            <div class="card-header position-relative border-0 p-0 mb-4">
-
-                                <img class="card-img-top" src="../../assets/img/price-1.jpg" alt="">
-                                <div class="position-absolute d-flex flex-column align-items-center justify-content-center w-100 h-100"
-                                    style="top: 0; left: 0; z-index: 1;">
+                    <div class="table-responsive">
+                        <div class="table-wrapper">
+                            <div class="table-title">
+                                <div class="row">
+                                    <div class="col-sm-5">
+                                        <h2>Pet List</h2>
+                                    </div>
+                                    <!-- <div class="col-sm-7">
+                                    <a href="#" class="btn btn-secondary"><i class="material-icons">&#xE147;</i>
+                                        <span>Add New User</span></a>
+                                    <a href="#" class="btn btn-secondary"><i class="material-icons">&#xE24D;</i>
+                                        <span>Export to Excel</span></a>
+                                </div> -->
                                 </div>
                             </div>
-                            <div class="card-body text-center p-0">
-                                <ul class="list-group list-group-flush mb-4">
-                                    <li class="list-group-item p-2"><span class="text-primary mr-2">Name:</span>
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Name</th>
+                                        <th>Breed</th>
+                                        <th>Color</th>
+                                        <th>Gender</th>
+                                        <th>age</th>
+                                        <th>location</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="pet in allPets" :key="pet.id">
+                                        <td>{{ pet._id }}</td>
+                                        <td>{{ pet.name }}</td>
+                                        <td>{{ pet.breed }}</td>
+                                        <td>{{ pet.color }}</td>
+                                        <td>{{ pet.gender }}</td>
+                                        <td>{{ pet.age }}</td>
+                                        <td>{{ pet.location }}</td>
 
-                                    </li>
-                                    <li class="list-group-item p-2"><span class="text-primary mr-2">Breed:</span>
 
-                                    </li>
-                                    <li class="list-group-item p-2"><span class="text-primary mr-2">Age:</span>
+                                        <td>
+                                            <button class="delete text-danger" title="Delete"
+                                                @click="deletPet(pet._id)">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
 
-                                    </li>
-                                    <li class="list-group-item p-2"><span class="text-primary mr-2">Gender:</span>
-
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="card-footer border-0 p-0">
-                                <a href="viewpet.php?v=<?= $data['id'] ?>" class="btn btn-primary btn-block p-3"
-                                    style="border-radius: 0;">Edit</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 mb-4">
-                        <div class="card border-0">
-                            <div class="card-header position-relative border-0 p-0 mb-4">
-
-                                <img class="card-img-top" src="../../assets/img/price-2.jpg" alt="">
-                                <div class="position-absolute d-flex flex-column align-items-center justify-content-center w-100 h-100"
-                                    style="top: 0; left: 0; z-index: 1;">
-                                </div>
-                            </div>
-                            <div class="card-body text-center p-0">
-                                <ul class="list-group list-group-flush mb-4">
-                                    <li class="list-group-item p-2"><span class="text-primary mr-2">Name:</span>
-
-                                    </li>
-                                    <li class="list-group-item p-2"><span class="text-primary mr-2">Breed:</span>
-
-                                    </li>
-                                    <li class="list-group-item p-2"><span class="text-primary mr-2">Age:</span>
-
-                                    </li>
-                                    <li class="list-group-item p-2"><span class="text-primary mr-2">Gender:</span>
-
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="card-footer border-0 p-0">
-                                <a href="viewpet.php?v=<?= $data['id'] ?>" class="btn btn-primary btn-block p-3"
-                                    style="border-radius: 0;">Edit</a>
-                            </div>
+                                </tbody>
+                            </table>
+                            <!-- <div class="clearfix">
+                            <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
+                            <ul class="pagination">
+                                <li class="page-item disabled"><a href="#">Previous</a></li>
+                                <li class="page-item"><a href="#" class="page-link">1</a></li>
+                                <li class="page-item"><a href="#" class="page-link">2</a></li>
+                                <li class="page-item active"><a href="#" class="page-link">3</a></li>
+                                <li class="page-item"><a href="#" class="page-link">4</a></li>
+                                <li class="page-item"><a href="#" class="page-link">5</a></li>
+                                <li class="page-item"><a href="#" class="page-link">Next</a></li>
+                            </ul>
+                        </div> -->
                         </div>
                     </div>
                 </div>
@@ -121,83 +122,26 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Name</th>
-                                    <th>Date Created</th>
+                                    <th>Email</th>
                                     <th>Role</th>
-                                    <th>Status</th>
+                                    <th>Phone</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td><a href="#"><img src="../../assets/img/price-1.jpg" class="avatar" alt="Avatar">
-                                            Michael Holz</a></td>
-                                    <td>04/10/2013</td>
-                                    <td>Admin</td>
-                                    <td><span class="status text-success">&bull;</span> Active</td>
+                                <tr v-for="user in allUser" :key="user.id">
+                                    <td>{{ user._id }}</td>
+                                    <td>{{ user.name }}</td>
+                                    <td>{{ user.email }}</td>
+                                    <td>{{ user.role }}</td>
+                                    <td>{{ user.phone }}</td>
                                     <td>
-                                        <a href="#" class="settings" title="Settings" data-toggle="tooltip"><i
-                                                class="material-icons">&#xE8B8;</i></a>
-                                        <a href="#" class="delete" title="Delete" data-toggle="tooltip"><i
-                                                class="material-icons">&#xE5C9;</i></a>
+                                        <button class="delete text-danger" title="Delete" @click="deletUser(user._id)">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td><a href="#"><img src="../../assets/img/price-1.jpg" class="avatar" alt="Avatar">
-                                            Paula Wilson</a></td>
-                                    <td>05/08/2014</td>
-                                    <td>Publisher</td>
-                                    <td><span class="status text-success">&bull;</span> Active</td>
-                                    <td>
-                                        <a href="#" class="settings" title="Settings" data-toggle="tooltip"><i
-                                                class="material-icons">&#xE8B8;</i></a>
-                                        <a href="#" class="delete" title="Delete" data-toggle="tooltip"><i
-                                                class="material-icons">&#xE5C9;</i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td><a href="#"><img src="../../assets/img/price-1.jpg" class="avatar" alt="Avatar">
-                                            Antonio Moreno</a></td>
-                                    <td>11/05/2015</td>
-                                    <td>Publisher</td>
-                                    <td><span class="status text-danger">&bull;</span> Suspended</td>
-                                    <td>
-                                        <a href="#" class="settings" title="Settings" data-toggle="tooltip"><i
-                                                class="material-icons">&#xE8B8;</i></a>
-                                        <a href="#" class="delete" title="Delete" data-toggle="tooltip"><i
-                                                class="material-icons">&#xE5C9;</i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td><a href="#"><img src="../../assets/img/price-1.jpg" class="avatar" alt="Avatar">
-                                            Mary Saveley</a></td>
-                                    <td>06/09/2016</td>
-                                    <td>Reviewer</td>
-                                    <td><span class="status text-success">&bull;</span> Active</td>
-                                    <td>
-                                        <a href="#" class="settings" title="Settings" data-toggle="tooltip"><i
-                                                class="material-icons">&#xE8B8;</i></a>
-                                        <a href="#" class="delete" title="Delete" data-toggle="tooltip"><i
-                                                class="material-icons">&#xE5C9;</i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>5</td>
-                                    <td><a href="#"><img src="../../assets/img/price-1.jpg" class="avatar" alt="Avatar">
-                                            Martin Sommer</a></td>
-                                    <td>12/08/2017</td>
-                                    <td>Moderator</td>
-                                    <td><span class="status text-warning">&bull;</span> Inactive</td>
-                                    <td>
-                                        <a href="#" class="settings" title="Settings" data-toggle="tooltip"><i
-                                                class="material-icons">&#xE8B8;</i></a>
-                                        <a href="#" class="delete" title="Delete" data-toggle="tooltip"><i
-                                                class="material-icons">&#xE5C9;</i></a>
-                                    </td>
-                                </tr>
+
                             </tbody>
                         </table>
                         <!-- <div class="clearfix">
@@ -221,9 +165,24 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref, watch } from "vue";
+import { usePetsStore } from '../../data.js';
+const petsStore = usePetsStore();
+const allUser = ref(null)
+const allPets = ref(null)
+watch(async () => {
+    allUser.value = petsStore.users;
+    allPets.value = petsStore.pets;
 
+});
 const tab = ref('dashboard')
+
+const deletUser = ((id) => {
+    petsStore.handelDeleteUser(id)
+})
+const deletPet = ((id) => {
+    petsStore.handelDeletePet(id)
+})
 </script>
 
 <style scoped>
@@ -477,5 +436,10 @@ table.table .avatar {
     float: left;
     margin-top: 10px;
     font-size: 13px;
+}
+
+.delete {
+    border: none;
+    background: transparent;
 }
 </style>

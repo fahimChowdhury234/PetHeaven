@@ -28,7 +28,7 @@
                     data-target="#addmypet">Add my Pet</button>
                 <!-- <h6 class="text-dark">Hello,
                 </h6> -->
-                <h6><a href="logout.php" class="text-danger  nav-link"><i class="fa fa-sign-out-alt"></i></a></h6>
+                <!-- <h6><a href="logout.php" class="text-danger  nav-link"><i class="fa fa-sign-out-alt"></i></a></h6> -->
 
                 <!-- <button type="button" class="btn btn-primary" data-toggle="modal"
                     data-target="#exampleModalCenter">Login</button> -->
@@ -36,7 +36,21 @@
                     Login
                 </router-link>
                 <div class="" v-else>
-                    hello
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            {{ currentUser.name }}
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <router-link class="dropdown-item" to="/myProfile">
+                                My Profile
+                            </router-link>
+                            <!-- <button class="dropdown-item" type="button">My Profile</button> -->
+                            <button @click="logOut" class="dropdown-item" type="button"><i
+                                    class="fa fa-sign-out-alt"></i>
+                                Logout</button>
+                        </div>
+                    </div>
                 </div>
 
                 <!--||||||||||||||||>>>>>>>>>>> add pet modal start  <<<<<<<<<<<<<<<<||||||-->
@@ -143,20 +157,30 @@
 
 <script setup>
 import { usePetsStore } from '../data.js';
-import { onMounted, ref } from 'vue';
+import { onMounted, onUpdated, ref, watch } from 'vue';
 const petsStore = usePetsStore();
 const petsData = ref({});
 const isAuthenticatedUser = ref(null)
-
+const currentUser = ref(null)
 onMounted(async () => {
     petsData.value = petsStore.petData;
+});
+watch(async () => {
+    const userData = localStorage.getItem("currentUser");
+    console.log(userData);
+    if (userData) {
+        petsStore.currentUser = JSON.parse(userData);
+        petsStore.isAuthenticated = true;
+    }
     isAuthenticatedUser.value = petsStore.isAuthenticated
-
+    currentUser.value = petsStore.currentUser
 });
 const addmypet = (() => {
     petsStore.addPet(petsData)
 })
-
+const logOut = (() => {
+    petsStore.handleLogout()
+})
 
 </script>
 

@@ -1,5 +1,10 @@
 <script setup>
 import NavBar from "./components/NavBar.vue"
+import { usePetsStore } from './data.js';
+const petsStore = usePetsStore();
+petsStore.getAllUser()
+petsStore.fetchPets()
+
 </script>
 
 <template>
