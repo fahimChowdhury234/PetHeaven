@@ -50,8 +50,7 @@ export const usePetsStore = defineStore("pets", {
       async addUser(user) {
          try {
             const response = await axios.post("https://pet-heaven-phi.vercel.app/add-user", user._rawValue);
-            // Use `this` to access the store's state
-            console.log(response);
+            router.push("/auth");
          } catch (error) {
             console.error(error);
          }
