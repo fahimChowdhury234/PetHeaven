@@ -157,7 +157,7 @@
 
 <script setup>
 import { usePetsStore } from '../data.js';
-import { onMounted, onUpdated, ref, watch } from 'vue';
+import { onMounted, ref, watchEffect } from 'vue';
 const petsStore = usePetsStore();
 const petsData = ref({});
 const isAuthenticatedUser = ref(null)
@@ -165,7 +165,7 @@ const currentUser = ref(null)
 onMounted(async () => {
     petsData.value = petsStore.petData;
 });
-watch(async () => {
+watchEffect(async () => {
     const userData = localStorage.getItem("currentUser");
     console.log(userData);
     if (userData) {

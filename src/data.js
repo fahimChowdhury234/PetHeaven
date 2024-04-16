@@ -7,6 +7,7 @@ export const usePetsStore = defineStore("pets", {
    state: () => ({
       pets: null,
       users: null,
+      authStatus: "login",
       currentUser: {},
       petData: {
          title: "",
@@ -38,6 +39,12 @@ export const usePetsStore = defineStore("pets", {
       },
    },
    actions: {
+      haveAnAccount() {
+         this.authStatus = "login";
+      },
+      haveNotAnAccount() {
+         this.authStatus = "register";
+      },
       async addPet(pet) {
          try {
             const response = await axios.post("https://pet-heaven-phi.vercel.app/add-pet", pet._rawValue);
@@ -49,8 +56,10 @@ export const usePetsStore = defineStore("pets", {
       },
       async addUser(user) {
          try {
-            const response = await axios.post("https://pet-heaven-phi.vercel.app/add-user", user._rawValue);
-            router.push("/auth");
+            if (user) {
+               const response = await axios.post("https://pet-heaven-phi.vercel.app/add-user", user._rawValue);
+               this.haveAnAccount();
+            }
          } catch (error) {
             console.error(error);
          }

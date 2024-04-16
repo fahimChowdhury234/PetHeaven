@@ -26,7 +26,7 @@
                         <!-- Submit button -->
                         <button type="submit" id="login" class="btn btn-primary btn-block mb-4"> Log in
                             &rarr;</button>
-                        <a href="#" @click="auth = 'register'">Dont have an account? Register Here</a>
+                        <a href="#" @click="haveNotAnAccount">Dont have an account? Register Here</a>
                         <!-- Register buttons -->
                     </form>
 
@@ -82,7 +82,7 @@
 
                             <!-- Register buttons -->
                         </form>
-                        <a @click="auth = 'login'">already have an account</a>
+                        <a @click="haveAnAccount">already have an account</a>
 
                     </div>
                 </div>
@@ -93,21 +93,31 @@
 
 <script setup>
 import { usePetsStore } from '../data.js';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch, watchEffect } from 'vue';
 const petsStore = usePetsStore();
 const registerData = ref({})
 const logInData = ref({})
-const auth = ref('login')
+const auth = ref('')
 onMounted(async () => {
     registerData.value = petsStore.register;
     logInData.value = petsStore.logIndata
 });
+watch(async () => {
+    auth.value = petsStore.authStatus;
+    console.log(petsStore.authStatus, '   this.authStatus = "login";');
 
+});
 const register = (() => {
     petsStore.addUser(registerData)
 })
 const logIn = (() => {
     petsStore.logInUser(logInData)
+})
+const haveAnAccount = (() => {
+    petsStore.haveAnAccount()
+})
+const haveNotAnAccount = (() => {
+    petsStore.haveNotAnAccount()
 })
 </script>
 
