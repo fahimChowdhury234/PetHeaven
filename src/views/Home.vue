@@ -11,8 +11,9 @@
                             <div class="p-3" style="max-width: 900px;">
                                 <h3 class="text-white mb-3 d-none d-sm-block">Discover the Joy of Pet Adoption</h3>
                                 <h1 class="display-3 text-white mb-3">Unleash Love, Adopt a Friend.</h1>
-                                <a href="pets.php" class="btn btn-lg btn-primary mt-3 mt-md-4 px-4">Adopt a pet</a>
-                                <a href="Register.php" class="btn btn-lg btn-secondary mt-3 mt-md-4 px-4">List your
+                                <router-link to="/pets" class="btn btn-lg btn-primary mt-3 mt-md-4 px-4"> Adopt a
+                                    pet</router-link>
+                                <a href="#" class="btn btn-lg btn-secondary mt-3 mt-md-4 px-4">List your
                                     pet</a>
                             </div>
                         </div>
@@ -23,8 +24,10 @@
                             <div class="p-3" style="max-width: 900px;">
                                 <h3 class="text-white mb-3 d-none d-sm-block">Furry Friends Await</h3>
                                 <h1 class="display-3 text-white mb-3">Rescue, Love, Repeat</h1>
-                                <a href="pets.php" class="btn btn-lg btn-primary mt-3 mt-md-4 px-4">Adopt a pet</a>
-                                <a href="Register.php" class="btn btn-lg btn-secondary mt-3 mt-md-4 px-4">List your
+                                <!-- <a href="pets.php" class="btn btn-lg btn-primary mt-3 mt-md-4 px-4">Adopt a pet</a> -->
+                                <router-link to="/pets" class="btn btn-lg btn-primary mt-3 mt-md-4 px-4"> Adopt a
+                                    pet</router-link>
+                                <a href="#" class="btn btn-lg btn-secondary mt-3 mt-md-4 px-4">List your
                                     pet</a>
                             </div>
                         </div>
@@ -72,7 +75,8 @@
                             <h5><i class="fa fa-check-double text-secondary mr-3"></i>Excellence in Adoption</h5>
                         </li>
                     </ul>
-                    <a href="pets.php" class="btn btn-lg btn-primary mt-3 px-4">Adopt a Pet</a>
+                    <router-link to="/pets" class="btn btn-lg btn-primary mt-3 mt-md-4 px-4"> Adopt a
+                        pet</router-link>
                 </div>
                 <div class="col-lg-5">
                     <div class="row px-3">

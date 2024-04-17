@@ -2,19 +2,22 @@ import { defineStore } from "pinia";
 import { reactive, watchEffect } from "vue";
 import axios from "axios";
 import router from "../src/router.js";
+import { useToasted } from "@hoppscotch/vue-toasted";
 
 export const usePetsStore = defineStore("pets", {
    state: () => ({
       pets: null,
       users: null,
+      petDetailsData: null,
       authStatus: "login",
-      currentUser: {},
+      currentUser: null,
       petData: {
-         title: "",
+         name: "",
          breed: "",
          color: "",
          age: "",
          location: "",
+         gender: "",
          user: "",
          status: "active",
          image: "",
@@ -47,7 +50,13 @@ export const usePetsStore = defineStore("pets", {
       },
       async addPet(pet) {
          try {
-            const response = await axios.post("https://pet-heaven-phi.vercel.app/add-pet", pet._rawValue);
+            const response = await axios.post("http://localhost:5000/add-pet", pet._rawValue);
+            const toast = useToasted();
+            toast.success("Pet added successfully!", {
+               theme: "toasted-primary",
+               position: "top-right",
+               duration: 5000,
+            });
             // Use `this` to access the store's state
             console.log(response);
          } catch (error) {
@@ -57,8 +66,15 @@ export const usePetsStore = defineStore("pets", {
       async addUser(user) {
          try {
             if (user) {
-               const response = await axios.post("https://pet-heaven-phi.vercel.app/add-user", user._rawValue);
-               this.haveAnAccount();
+               // const response = await axios.post("http://localhost:5000/add-user", user._rawValue);
+               const toast = useToasted();
+
+               toast.success(" Your registration us successful. Now redirecting to login ", {
+                  theme: "toasted-primary",
+                  position: "top-right",
+                  duration: 5000,
+               });
+               // this.haveAnAccount();
             }
          } catch (error) {
             console.error(error);
@@ -67,7 +83,7 @@ export const usePetsStore = defineStore("pets", {
 
       async getAllUser() {
          try {
-            const response = await axios.get("https://pet-heaven-phi.vercel.app/users");
+            const response = await axios.get("http://localhost:5000/users");
             this.users = response.data;
          } catch (error) {
             console.error(error);
@@ -88,11 +104,24 @@ export const usePetsStore = defineStore("pets", {
                   // Redirect to MyProfile page
                   this.isAuthenticated = true;
                   router.push("/myProfile");
+                  const toast = useToasted();
+
+                  toast.success("Login successful!", {
+                     theme: "toasted-primary",
+                     position: "top-right",
+                     duration: 5000,
+                  });
                } else if (loggedInUser.role === "admin") {
                   this.isAuthenticated = true;
-
                   // Redirect to Dashboard page
                   router.push("/dashboard");
+                  const toast = useToasted();
+
+                  toast.success("Login successful!", {
+                     theme: "toasted-primary",
+                     position: "top-right",
+                     duration: 5000,
+                  });
                } else {
                   // Handle other roles if needed
                   console.log("Other role:", loggedInUser.role);
@@ -109,50 +138,60 @@ export const usePetsStore = defineStore("pets", {
          this.currentUser = null;
          this.isAuthenticated = false;
          localStorage.removeItem("currentUser");
+         const toast = useToasted();
+
+         toast.success("Logout successful!", {
+            theme: "toasted-primary",
+            position: "top-right",
+            duration: 5000,
+         });
          router.push("/auth");
       },
       async handelDeleteUser(id) {
          try {
-            const response = await axios.delete(`https://pet-heaven-phi.vercel.app/user/${id}`);
+            const response = await axios.delete(`http://localhost:5000/user/${id}`);
             this.getAllUser();
+            const toast = useToasted();
+
+            toast.success("User deleted successful!", {
+               theme: "toasted-primary",
+               position: "top-right",
+               duration: 5000,
+            });
          } catch (error) {
             console.error(error);
          }
       },
       async handelDeletePet(id) {
          try {
-            const response = await axios.delete(`https://pet-heaven-phi.vercel.app/pet/${id}`);
+            const response = await axios.delete(`http://localhost:5000/pet/${id}`);
             this.fetchPets();
+            const toast = useToasted();
+
+            toast.success("Pet deleted successful!", {
+               theme: "toasted-primary",
+               position: "top-right",
+               duration: 5000,
+            });
          } catch (error) {
             console.error(error);
          }
       },
       async fetchPets() {
          try {
-            const response = await axios.get("https://pet-heaven-phi.vercel.app/pets");
+            const response = await axios.get("http://localhost:5000/pets");
             this.pets = response.data; // Use `this` to access the store's state
-            console.log(this.pets);
+         } catch (error) {
+            console.error(error);
+         }
+      },
+      async getPetDetails(id) {
+         try {
+            const response = await axios.get(`http://localhost:5000/pet/${id}`);
+            this.petDetailsData = response.data;
          } catch (error) {
             console.error(error);
          }
       },
    },
 });
-
-// watchEffect(() => {
-//    const userData = localStorage.getItem("currentUser");
-//    if (userData) {
-//       // Set the current user and authentication status
-//       usePetsStore.currentUser = JSON.parse(userData);
-//       usePetsStore.isAuthenticated = true;
-//    }
-//    // useBlogStore.blogs = JSON.parse(localStorage.getItem("blogs")) || [];
-// });
-
-// watchEffect(() => {
-//    const userData = localStorage.getItem("currentUser");
-//    if (userData) {
-//       usePetsStore.currentUser = JSON.parse(userData);
-//       usePetsStore.isAuthenticated = true;
-//    }
-// });

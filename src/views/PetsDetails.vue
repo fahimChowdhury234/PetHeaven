@@ -5,7 +5,7 @@
                 <div class="row align-items-center">
                     <div class="col-lg-5 text-center">
                         <div class="py-2  px-sm-2">
-                            <img src="../../src/assets/img/price-1.jpg" class="img-fluid" alt="">
+                            <img :src="petDetails.image" class="img-fluid w-100 " alt="" v-if="petDetails">
                         </div>
                     </div>
                     <div class="col-lg-7 py-5 py-lg-0 px-3 px-lg-5">
@@ -15,37 +15,42 @@
                         </p>
                         <div class="row py-2">
                             <div class="col-sm-6">
-                                <div class="d-flex flex-column">
+                                <div class="d-flex flex-column" v-if="petDetails">
                                     <div class="d-flex align-items-center mb-2">
-                                        <h5 class="text-truncate m-0">Breed :
+                                        <h5 class="text-truncate m-0"> Name: {{ petDetails.name }}
                                         </h5>
                                     </div>
                                     <div class="d-flex align-items-center mb-2">
-                                        <h5 class="text-truncate m-0">Age :
+                                        <h5 class="text-truncate m-0"> Breed: {{ petDetails.breed }}
                                         </h5>
                                     </div>
                                     <div class="d-flex align-items-center mb-2">
-                                        <h5 class="text-truncate m-0">Gender :
+                                        <h5 class="text-truncate m-0">Age : {{ petDetails.age }}
                                         </h5>
                                     </div>
                                     <div class="d-flex align-items-center mb-2">
-                                        <h5 class="text-truncate m-0">Location :
+                                        <h5 class="text-truncate m-0">Gender : {{ petDetails.gender }}
                                         </h5>
                                     </div>
+                                    <div class="d-flex align-items-center mb-2">
+                                        <h5 class="text-truncate m-0">Color : {{ petDetails.color }}
+                                        </h5>
+                                    </div>
+                                    <div class="d-flex align-items-center mb-2">
+                                        <h5 class="text-truncate m-0">Location : {{ petDetails.location }}
+                                        </h5>
+                                    </div>
+
                                     <div class="d-flex align-items-center mb-2">
                                         <h5 class="text-truncate m-0">
 
-
-                                            <button type="button" class="btn btn-primary" data-toggle="modal"
-                                                data-target="#exampleModalSeller">Pet Owner Details</button>
-                                            <a class="btn btn-primary" href="mailto:<?php echo $sellerData['email'] ?>"
+                                            <!-- <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                data-target="#exampleModalSeller">Pet Owner Details</button> -->
+                                            <a class="btn btn-primary" :href="'mailto:' + currentUser.email"
                                                 role="button">Contact</a>
-                                            <button type="disable" class="btn btn-primary" data-toggle="modal"
-                                                data-target="#exampleModalCenter">Login To view Seller Details</button>
 
-
-
-
+                                            <!-- <button type="disable" class="btn btn-primary" data-toggle="modal"
+                                                data-target="#exampleModalCenter">Login To view Seller Details</button> -->
 
                                             <!-- seller details modal -->
                                             <!-- Modal -->
@@ -125,34 +130,39 @@
                 </div>
                 <div class="row">
 
-                    <div class="col-lg-4 mb-4">
+                    <div class="col-lg-4 mb-4" v-for="pet in displayedPets" :key="pet._id">
                         <div class="card border-0">
                             <div class="card-header position-relative border-0 p-0 mb-4">
 
-                                <img class="card-img-top" src="../../src/assets/img/price-2.jpg" alt="">
+                                <img class="card-img-top" :src="pet.image" alt="">
                                 <div class="position-absolute d-flex flex-column align-items-center justify-content-center w-100 h-100"
                                     style="top: 0; left: 0; z-index: 1;">
                                 </div>
                             </div>
                             <div class="card-body text-center p-0">
                                 <ul class="list-group list-group-flush mb-4">
-                                    <li class="list-group-item p-2"><span class="text-primary mr-2">Breed:</span>
+                                    <li class="list-group-item p-2"><span class="text-primary mr-2">Breed: {{ pet.breed
+                                            }}</span>
 
                                     </li>
-                                    <li class="list-group-item p-2"><span class="text-primary mr-2">Name:</span>
+                                    <li class="list-group-item p-2"><span class="text-primary mr-2">Name: {{ pet.name
+                                            }}</span>
 
                                     </li>
-                                    <li class="list-group-item p-2"><span class="text-primary mr-2">Age:</span>
+                                    <li class="list-group-item p-2"><span class="text-primary mr-2">Age:{{ pet.age
+                                            }}</span>
 
                                     </li>
-                                    <li class="list-group-item p-2"><span class="text-primary mr-2">Gender:</span>
+                                    <li class="list-group-item p-2"><span class="text-primary mr-2">Gender:{{ pet.gender
+                                            }}</span>
 
                                     </li>
                                 </ul>
                             </div>
                             <div class="card-footer border-0 p-0">
-                                <a href="viewpet.php?v=<?= $data['id'] ?>" class="btn btn-primary btn-block p-3"
-                                    style="border-radius: 0;">Details</a>
+                                <router-link :to="'/pets/' + pet._id" class="btn btn-primary btn-block p-3">
+                                    Details
+                                </router-link>
                             </div>
                         </div>
                     </div>
@@ -164,7 +174,32 @@
 </template>
 
 <script setup>
+import { usePetsStore } from '../data.js';
+import { useRoute } from 'vue-router';
+import { computed, onMounted, ref, watchEffect } from 'vue';
 
+const petsStore = usePetsStore();
+const route = useRoute()
+const id = route.params.id;
+petsStore.getPetDetails(id)
+
+const petDetails = ref({});
+const morePets = ref(null)
+const currentUser = ref(null);
+console.log(currentUser);
+watchEffect(async () => {
+    petDetails.value = petsStore.petDetailsData;
+    morePets.value = petsStore.pets;
+    currentUser.value = petsStore.currentUser
+
+});
+
+const displayedPets = computed(() => {
+    if (morePets.value) {
+
+        return morePets.value.slice(0, 3);
+    }
+});
 </script>
 
 <style lang="scss" scoped></style>

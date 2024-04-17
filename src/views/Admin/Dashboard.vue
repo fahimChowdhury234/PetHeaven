@@ -45,12 +45,7 @@
                                     <div class="col-sm-5">
                                         <h2>Pet List</h2>
                                     </div>
-                                    <!-- <div class="col-sm-7">
-                                    <a href="#" class="btn btn-secondary"><i class="material-icons">&#xE147;</i>
-                                        <span>Add New User</span></a>
-                                    <a href="#" class="btn btn-secondary"><i class="material-icons">&#xE24D;</i>
-                                        <span>Export to Excel</span></a>
-                                </div> -->
+
                                 </div>
                             </div>
                             <table class="table table-striped table-hover">

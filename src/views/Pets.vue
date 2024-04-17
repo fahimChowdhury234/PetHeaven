@@ -9,7 +9,7 @@
                             pet</span></h1>
                 </div>
                 <div class="row">
-                    <div class="col-lg-4 mb-4" v-for="pets in allPets" :key="pets.id">
+                    <div class="col-lg-4 mb-4" v-for="pets in allPets" :key="pets._id">
                         <div class="card border-0">
                             <div class="card-header position-relative border-0 p-0 mb-4">
 
@@ -22,7 +22,7 @@
                                 <ul class="list-group list-group-flush mb-4">
                                     <li class="list-group-item p-2">
                                         <span class="text-primary mr-2">
-                                            Name: {{ pets.title }}
+                                            Name: {{ pets.name }}
                                         </span>
 
                                     </li>
@@ -36,8 +36,10 @@
                                             Age: {{ pets.age }}
                                         </span>
                                     </li>
-                                    <li class="list-group-item p-2"><span class="text-primary mr-2">Gender:</span>
-
+                                    <li class="list-group-item p-2">
+                                        <span class="text-primary mr-2">
+                                            Gender: {{ pets.gender }}
+                                        </span>
                                     </li>
                                     <li class="list-group-item p-2">
                                         <span class="text-primary mr-2">
@@ -52,8 +54,9 @@
                                 </ul>
                             </div>
                             <div class="card-footer border-0 p-0">
-                                <a href="viewpet.php?v=<?= $data['id'] ?>" class="btn btn-primary btn-block p-3"
-                                    style="border-radius: 0;">Details</a>
+                                <router-link :to="'/pets/' + pets._id" class="btn btn-primary btn-block p-3">
+                                    Details
+                                </router-link>
                             </div>
                         </div>
                     </div>
@@ -83,7 +86,6 @@ onMounted(async () => {
     }
 });
 const fetchPets = async () => {
-    console.log('fetchPets');
     try {
         await petsStore.fetchPets();
     } catch (error) {

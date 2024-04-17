@@ -24,8 +24,8 @@
                     <router-link to="/" class="nav-item nav-link"> Home</router-link>
                     <router-link to="/pets" class="nav-item nav-link"> Pets</router-link>
                 </div>
-                <button type="button" class="btn mx-0 mx-lg-4 mb-2 py-2 px-4 btn-primary" data-toggle="modal"
-                    data-target="#addmypet">Add my Pet</button>
+                <button v-if="currentUser" type="button" class="btn mx-0 mx-lg-4  py-2 px-4 btn-primary"
+                    data-toggle="modal" data-target="#addmypet">Add my Pet</button>
                 <!-- <h6 class="text-dark">Hello,
                 </h6> -->
                 <!-- <h6><a href="logout.php" class="text-danger  nav-link"><i class="fa fa-sign-out-alt"></i></a></h6> -->
@@ -74,71 +74,67 @@
                                     <strong>Your pet is listed for adoption! <a href="pets.php">Browse
                                             it</a></strong>
                                 </div> -->
-                                <form id="petListingForm" @submit.prevent="addmypet">
-                                    <input type="hidden" name="seller_id" value="<?php echo $_SESSION['id']; ?>">
-
+                                <form id="petListingForm">
+                                    <!-- Breed/Type -->
                                     <div class="form-outline mb-2">
-                                        <label class="form-label">What is the breed/ Type of this pet? *</label>
+                                        <label class="form-label">What is the breed/Type of this pet? *</label>
                                         <input type="text" name="pettype" class="form-control pettype"
                                             placeholder="A cat, a dog, a rabbit etc..." required
                                             v-model="petsData.breed" />
-                                        <div class="invalid-feedback">Breed/ Type is required</div>
+                                        <div v-if="errors.breed" class="invalid-feedback">{{ errors.breed }}</div>
                                     </div>
 
+                                    <!-- Pet Name -->
                                     <div class="form-outline mb-2">
                                         <label class="form-label">Pet Name *</label>
                                         <input type="text" name="petname" class="form-control petname"
-                                            placeholder="Name" required v-model="petsData.title" />
-                                        <div class="invalid-feedback petnameError">Pet name is required</div>
+                                            placeholder="Name" required v-model="petsData.name" />
+                                        <div v-if="errors.name" class="invalid-feedback">{{ errors.name }}</div>
                                     </div>
 
+                                    <!-- Pet Age -->
                                     <div class="form-outline mb-2">
                                         <label class="form-label">Pet Age *</label>
                                         <input type="text" name="petage" class="form-control petage" placeholder="Age"
                                             required v-model="petsData.age" />
-                                        <div class="invalid-feedback">Age is required</div>
+                                        <div v-if="errors.age" class="invalid-feedback">{{ errors.age }}</div>
                                     </div>
+
+                                    <!-- Pet Color -->
                                     <div class="form-outline mb-2">
                                         <label class="form-label">Pet Color *</label>
                                         <input type="text" name="petcolor" class="form-control petcolor"
                                             placeholder="Color" required v-model="petsData.color" />
-                                        <div class="invalid-feedback">Color is required</div>
+                                        <div v-if="errors.color" class="invalid-feedback">{{ errors.color }}</div>
                                     </div>
+
+                                    <!-- Pet Gender -->
                                     <div class="form-outline mb-2">
-                                        <label class="form-label">Pet Loction *</label>
-                                        <input type="text" name="petlocation" class="form-control petlocation"
-                                            placeholder="Loction" required v-model="petsData.location" />
-                                        <div class="invalid-feedback">Loction is required</div>
-                                    </div>
-                                    <div class="form-outline mb-2">
-                                        <label class="form-label">Pet photo *</label>
-                                        <input type="text" name="petphoto" class="form-control petphoto"
-                                            placeholder="Photo" required v-model="petsData.image" />
-                                        <div class="invalid-feedback">Image is required</div>
-                                    </div>
-                                    <!-- <div class="form-outline mb-2">
                                         <label class="form-label">Pet Gender *</label>
                                         <input type="text" name="petgender" class="form-control petgender"
-                                            placeholder="Gender" required />
-                                        <div class="invalid-feedback">Gender is required</div>
-                                    </div> -->
+                                            placeholder="Gender" required v-model="petsData.gender" />
+                                        <div v-if="errors.gender" class="invalid-feedback">{{ errors.gender }}</div>
+                                    </div>
 
-                                    <!-- <div class="form-outline mb-2">
-                                        <label class="form-label">Pet Description *</label>
-                                        <textarea name="petdescription" class="form-control petdescription"
-                                            placeholder="Describe your pet"></textarea>
-                                        <div class="invalid-feedback">Description is required</div>
-                                    </div> -->
+                                    <!-- Pet Location -->
+                                    <div class="form-outline mb-2">
+                                        <label class="form-label">Pet Location *</label>
+                                        <input type="text" name="petlocation" class="form-control petlocation"
+                                            placeholder="Location" required v-model="petsData.location" />
+                                        <div v-if="errors.location" class="invalid-feedback">{{ errors.location }}</div>
+                                    </div>
 
-                                    <!-- <div class="form-outline mb-2">
-                                        <label class="form-label">Pet photo *</label>
-                                        <input type="file" class="form-control petphoto" name="file"
-                                            @change="handleFileUpload" />
-                                        <div class="invalid-feedback">Photo is required</div>
-                                    </div> -->
+                                    <!-- Pet Photo -->
+                                    <div class="form-outline mb-2">
+                                        <label class="form-label">Pet Photo *</label>
+                                        <input type="text" name="petphoto" class="form-control petphoto"
+                                            placeholder="Photo" required v-model="petsData.image" />
+                                        <div v-if="errors.image" class="invalid-feedback">{{ errors.image }}</div>
+                                    </div>
 
-                                    <button type="submit" id="listPet" class="btn btn-primary btn-block mb-4">List
-                                        the
+                                    <!-- Submit Button -->
+                                    <button type="button" @click.prevent="addmypet" id="listPet"
+                                        class="btn btn-primary btn-block mb-4">List the
                                         Pet &rarr;</button>
                                 </form>
 
@@ -167,21 +163,104 @@ onMounted(async () => {
 });
 watchEffect(async () => {
     const userData = localStorage.getItem("currentUser");
-    console.log(userData);
     if (userData) {
+        petsStore.petData.user = currentUser._id
         petsStore.currentUser = JSON.parse(userData);
         petsStore.isAuthenticated = true;
     }
     isAuthenticatedUser.value = petsStore.isAuthenticated
     currentUser.value = petsStore.currentUser
 });
-const addmypet = (() => {
-    petsStore.addPet(petsData)
-})
+const errors = ref({})
+const validateForm = () => {
+    errors.value = {};
+    console.log('llkk');
+    let isValid = true;
+    // Validate each field
+    if (!petsData.value.breed) {
+        errors.value.breed = 'Breed/Type is required';
+        isValid = false;
+    }
+    if (!petsData.value.name) {
+        errors.value.name = 'Pet name is required';
+        isValid = false;
+    }
+    if (!petsData.value.age) {
+        errors.value.age = 'Pet age is required';
+        isValid = false;
+    }
+    if (!petsData.value.color) {
+        errors.value.color = 'Pet color is required';
+        isValid = false;
+    }
+    if (!petsData.value.gender) {
+        errors.value.gender = 'Pet gender is required';
+        isValid = false;
+    }
+    if (!petsData.value.location) {
+        errors.value.location = 'Pet location is required';
+        isValid = false;
+    }
+    if (!petsData.value.image) {
+        errors.value.image = 'Pet photo is required';
+        isValid = false;
+    }
+    return isValid;
+
+};
+// const errors = ref({});
+
+// const validateForm = () => {
+//     console.log('hhh');
+//     errors.value = {};
+//     let isValid = true;
+//     if (!registerData.value.name) {
+//         errors.value.name = 'Name is required';
+//         isValid = false;
+//     }
+//     if (!registerData.value.email) {
+//         errors.value.email = 'Email is required';
+//         isValid = false;
+//     } else if (!isValidEmail(registerData.value.email)) {
+//         errors.value.email = 'Invalid email format';
+//         isValid = false;
+//     }
+//     if (!registerData.value.mobile) {
+//         errors.value.mobile = 'Mobile number is required';
+//         isValid = false;
+//     }
+//     if (!registerData.value.address) {
+//         errors.value.address = 'Address is required';
+//         isValid = false;
+//     }
+//     if (!registerData.value.password) {
+//         errors.value.password = 'Password is required';
+//         isValid = false;
+//     }
+//     return isValid;
+// };
+const addmypet = async () => {
+    if (validateForm()) {
+        petsStore.addPet(petsData)
+        petsData.value.image = '';
+        petsData.value.name = '';
+        petsData.value.age = '';
+        petsData.value.gender = '';
+        petsData.value.location = '';
+        petsData.value.color = '';
+        petsData.value.breed = ''
+
+    }
+}
+
 const logOut = (() => {
     petsStore.handleLogout()
 })
 
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+.invalid-feedback {
+    display: block !important;
+}
+</style>
