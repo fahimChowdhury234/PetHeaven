@@ -191,12 +191,10 @@ watchEffect(async () => {
     petDetails.value = petsStore.petDetailsData;
     morePets.value = petsStore.pets;
     currentUser.value = petsStore.currentUser
-
 });
 
 const displayedPets = computed(() => {
     if (morePets.value) {
-
         return morePets.value.slice(0, 3);
     }
 });

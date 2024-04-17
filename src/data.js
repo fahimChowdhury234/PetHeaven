@@ -50,7 +50,7 @@ export const usePetsStore = defineStore("pets", {
       },
       async addPet(pet) {
          try {
-            const response = await axios.post("http://localhost:5000/add-pet", pet._rawValue);
+            const response = await axios.post("https://pet-heaven-phi.vercel.app/add-pet", pet._rawValue);
             const toast = useToasted();
             toast.success("Pet added successfully!", {
                theme: "toasted-primary",
@@ -66,7 +66,7 @@ export const usePetsStore = defineStore("pets", {
       async addUser(user) {
          try {
             if (user) {
-               // const response = await axios.post("http://localhost:5000/add-user", user._rawValue);
+               const response = await axios.post("https://pet-heaven-phi.vercel.app/add-user", user._rawValue);
                const toast = useToasted();
 
                toast.success(" Your registration us successful. Now redirecting to login ", {
@@ -74,7 +74,7 @@ export const usePetsStore = defineStore("pets", {
                   position: "top-right",
                   duration: 5000,
                });
-               // this.haveAnAccount();
+               this.haveAnAccount();
             }
          } catch (error) {
             console.error(error);
@@ -83,7 +83,7 @@ export const usePetsStore = defineStore("pets", {
 
       async getAllUser() {
          try {
-            const response = await axios.get("http://localhost:5000/users");
+            const response = await axios.get("https://pet-heaven-phi.vercel.app/users");
             this.users = response.data;
          } catch (error) {
             console.error(error);
@@ -149,7 +149,7 @@ export const usePetsStore = defineStore("pets", {
       },
       async handelDeleteUser(id) {
          try {
-            const response = await axios.delete(`http://localhost:5000/user/${id}`);
+            const response = await axios.delete(`https://pet-heaven-phi.vercel.app/user/${id}`);
             this.getAllUser();
             const toast = useToasted();
 
@@ -164,7 +164,7 @@ export const usePetsStore = defineStore("pets", {
       },
       async handelDeletePet(id) {
          try {
-            const response = await axios.delete(`http://localhost:5000/pet/${id}`);
+            const response = await axios.delete(`https://pet-heaven-phi.vercel.app/pet/${id}`);
             this.fetchPets();
             const toast = useToasted();
 
@@ -179,7 +179,7 @@ export const usePetsStore = defineStore("pets", {
       },
       async fetchPets() {
          try {
-            const response = await axios.get("http://localhost:5000/pets");
+            const response = await axios.get("https://pet-heaven-phi.vercel.app/pets");
             this.pets = response.data; // Use `this` to access the store's state
          } catch (error) {
             console.error(error);
@@ -187,7 +187,7 @@ export const usePetsStore = defineStore("pets", {
       },
       async getPetDetails(id) {
          try {
-            const response = await axios.get(`http://localhost:5000/pet/${id}`);
+            const response = await axios.get(`https://pet-heaven-phi.vercel.app/pet/${id}`);
             this.petDetailsData = response.data;
          } catch (error) {
             console.error(error);

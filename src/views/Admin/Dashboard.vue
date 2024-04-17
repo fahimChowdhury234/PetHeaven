@@ -168,7 +168,6 @@ const allPets = ref(null)
 watch(async () => {
     allUser.value = petsStore.users;
     allPets.value = petsStore.pets;
-
 });
 const tab = ref('dashboard')
 

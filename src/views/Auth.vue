@@ -106,8 +106,6 @@ onMounted(async () => {
 });
 watch(async () => {
     auth.value = petsStore.authStatus;
-    console.log(petsStore.authStatus, '   this.authStatus = "login";');
-
 });
 const errors = ref({});
 
@@ -181,14 +179,7 @@ const isValidEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
 };
-// const register = (() => {
-//     petsStore.addUser(registerData)
-// })
-// const logIn = (() => {
-//     if (logInvalidateForm()) {
-//         petsStore.logInUser(logInData)
-//     }
-// })
+
 
 const logIn = async () => {
     if (logInvalidateForm()) {
@@ -202,7 +193,7 @@ const logIn = async () => {
                 // Check if the password matches
                 if (user.password === logInData.value.password) {
                     // Password matches, log in successful
-                    console.log('User logged in:', user);
+
                     petsStore.logInUser(logInData)
                     logInData.value.password = '';
                     logInData.value.email = '';

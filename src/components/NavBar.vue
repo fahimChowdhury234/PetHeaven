@@ -208,37 +208,6 @@ const validateForm = () => {
     return isValid;
 
 };
-// const errors = ref({});
-
-// const validateForm = () => {
-//     console.log('hhh');
-//     errors.value = {};
-//     let isValid = true;
-//     if (!registerData.value.name) {
-//         errors.value.name = 'Name is required';
-//         isValid = false;
-//     }
-//     if (!registerData.value.email) {
-//         errors.value.email = 'Email is required';
-//         isValid = false;
-//     } else if (!isValidEmail(registerData.value.email)) {
-//         errors.value.email = 'Invalid email format';
-//         isValid = false;
-//     }
-//     if (!registerData.value.mobile) {
-//         errors.value.mobile = 'Mobile number is required';
-//         isValid = false;
-//     }
-//     if (!registerData.value.address) {
-//         errors.value.address = 'Address is required';
-//         isValid = false;
-//     }
-//     if (!registerData.value.password) {
-//         errors.value.password = 'Password is required';
-//         isValid = false;
-//     }
-//     return isValid;
-// };
 const addmypet = async () => {
     if (validateForm()) {
         petsStore.addPet(petsData)
@@ -249,7 +218,6 @@ const addmypet = async () => {
         petsData.value.location = '';
         petsData.value.color = '';
         petsData.value.breed = ''
-
     }
 }
 

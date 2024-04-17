@@ -146,27 +146,7 @@
 </template>
 
 <script setup>
-import axios from 'axios'
-const petData = {
-    title: "new pet",
-    breed: "cross",
-    color: "black",
-    age: "2 month",
-    location: "dhaka, bangladesh",
-    user: "661c4070d92590ac5e770943",
-    status: "active",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKSYmdwK3kLawMMTKh10NIErZ4LHYnosyAkC1FeCqi2g&s"
-};
-const addpet = (() => {
-    axios.post('http://localhost:5000/add-pet', petData)
-        .then(function (response) {
-            alert(response.data);
-        })
-        .catch(function (error) {
-            alert(error);
-        });
 
-})
 </script>
 
 <style lang="scss" scoped></style>

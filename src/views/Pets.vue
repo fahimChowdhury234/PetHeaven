@@ -72,10 +72,6 @@
 import { usePetsStore } from '../data.js';
 import { onMounted, ref } from 'vue';
 const petsStore = usePetsStore();
-
-
-// const { getAllPets } = storeToRefs(petsStore)
-
 const allPets = ref([]);
 onMounted(async () => {
     try {
